@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Industrial Engineers User Research Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F8FA;--bg2:#FFFFFF;--bg3:#F1F3F6;
+  --border:#DDE1E8;--border2:#C8CDD6;
+  --text:#1A202C;--text2:#4A5568;--text3:#94A3B8;
+  --ink:#0F172A;
+  --g:#059669;--g2:#047857;--g3:rgba(5,150,105,.08);--g4:#ECFDF5;
+  --b:#2563EB;--b2:rgba(37,99,235,.08);--b4:#EFF6FF;
+  --a:#D97706;--a2:rgba(217,119,6,.08);
+  --r:#DC2626;--r2:rgba(220,38,38,.08);
+  --font-d:'Inter','Noto Sans SC',sans-serif;
+  --font-b:'Noto Sans SC','Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-d);background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:1.5rem 2rem;position:sticky;top:0;z-index:100}
+.header-inner{max-width:800px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:.5rem}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--b);box-shadow:0 0 6px rgba(37,99,235,.4)}
+.brand-name{font-family:var(--font-d);font-size:14px;font-weight:700}
+.brand-name span{color:var(--b)}
+.brand-sub{font-size:11px;color:var(--text3);font-family:var(--font-d)}
+.progress-bar{height:4px;background:var(--bg3);border-radius:2px;margin-top:1rem;overflow:hidden}
+.progress-fill{height:100%;background:var(--b);border-radius:2px;transition:width .3s}
+
+.main{max-width:800px;margin:0 auto;padding:2rem 1.5rem}
+
+.section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.section-header{display:flex;align-items:center;gap:8px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.section-num{width:28px;height:28px;border-radius:50%;background:var(--b);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font-d)}
+.section-title{font-size:16px;font-weight:600;color:var(--ink)}
+.section-desc{font-size:13px;color:var(--text2);margin-bottom:1rem;padding:8px 12px;background:var(--bg3);border-radius:8px}
+
+.question{margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px dashed var(--border)}
+.question:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.q-num{font-size:12px;color:var(--b);font-weight:600;font-family:var(--font-d);margin-bottom:4px}
+.q-text{font-size:14px;color:var(--ink);margin-bottom:.75rem;line-height:1.6}
+.q-required{color:var(--r);font-size:11px;margin-left:4px}
+
+.options{display:flex;flex-direction:column;gap:6px}
+.option{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s}
+.option:hover{border-color:var(--b);background:var(--b2)}
+.option.selected{border-color:var(--b);background:var(--b4)}
+.option input[type="radio"],.option input[type="checkbox"]{display:none}
+.option-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.option.selected .option-check{border-color:var(--b);background:var(--b)}
+.option-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;display:none}
+.option.selected .option-check::after{display:block}
+.option-checkbox .option-check{border-radius:4px}
+.option-checkbox.selected .option-check::after{content:'✓';font-size:10px;color:#fff;width:auto;height:auto}
+.option-text{font-size:13px;color:var(--text2)}
+.option.selected .option-text{color:var(--ink);font-weight:500}
+
+.text-input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font-d);background:var(--bg);color:var(--text);transition:border-color .15s}
+.text-input:focus{outline:none;border-color:var(--b)}
+.text-input::placeholder{color:var(--text3)}
+
+textarea.text-input{min-height:80px;resize:vertical}
+
+.submit-section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;text-align:center}
+.submit-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:var(--b);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:var(--font-d);cursor:pointer;transition:all .15s}
+.submit-btn:hover{background:var(--g);transform:translateY(-1px)}
+.submit-btn:disabled{background:var(--text3);cursor:not-allowed;transform:none}
+.submit-note{font-size:12px;color:var(--text3);margin-top:.75rem}
+
+.footer{text-align:center;padding:1.5rem;font-size:12px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg2)}
+
+.success-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.success-modal.show{display:flex}
+.success-content{background:var(--bg2);border-radius:16px;padding:2rem;text-align:center;max-width:400px;margin:1rem}
+.success-icon{font-size:48px;margin-bottom:1rem}
+.success-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:.5rem}
+.success-desc{font-size:14px;color:var(--text2);margin-bottom:1rem}
+.success-close{padding:10px 24px;background:var(--g);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+
+@media(max-width:600px){.header{padding:1rem}.main{padding:1rem}.section{padding:1rem}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <div>
+        <div class="brand-name">Industrial Engineers <span>User Research Survey</span></div>
+        <div class="brand-sub">Global Industrial Mechanical Engineers Alliance</div>
+      </div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress" style="width:0%"></div>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- Section 1: Basic Information -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Basic Information</div>
+  </div>
+  <div class="section-desc">Please provide your basic information to help us better understand our user community.</div>
+
+  <div class="question">
+    <div class="q-num">Q1</div>
+    <div class="q-text">What is your current job role?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q1">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Field maintenance engineer (working on-site at construction/mining/oil sites)</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Engineering contractor technical lead (equipment selection/procurement decisions)</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Independent repair technician (self-employed or small workshop)</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. Mechanical design/R&D engineer (working in R&D centers)</div></div>
+      <div class="option" data-v="E"><div class="option-check"></div><div class="option-text">E. Factory/mine equipment manager (responsible for equipment O&M)</div></div>
+      <div class="option" data-v="F"><div class="option-check"></div><div class="option-text">F. Other (please specify)</div></div>
+    </div>
+    <input type="text" class="text-input" id="q1-other" placeholder="Please specify your job role" style="display:none;margin-top:8px">
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q2</div>
+    <div class="q-text">Which country/region do you primarily work in?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q2">
+      <div class="option" data-v="Africa"><div class="option-check"></div><div class="option-text">Africa (Nigeria/Kenya/South Africa/Egypt etc.)</div></div>
+      <div class="option" data-v="Southeast Asia"><div class="option-check"></div><div class="option-text">Southeast Asia (Indonesia/Thailand/Vietnam/Philippines etc.)</div></div>
+      <div class="option" data-v="Middle East"><div class="option-check"></div><div class="option-text">Middle East (Saudi Arabia/UAE/Qatar etc.)</div></div>
+      <div class="option" data-v="Latin America"><div class="option-check"></div><div class="option-text">Latin America (Mexico/Brazil/Colombia etc.)</div></div>
+      <div class="option" data-v="China"><div class="option-check"></div><div class="option-text">China</div></div>
+      <div class="option" data-v="Europe/North America"><div class="option-check"></div><div class="option-text">Europe/North America</div></div>
+      <div class="option" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q3</div>
+    <div class="q-text">How many years have you worked with industrial power equipment?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q3">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Less than 1 year</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. 1-3 years</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. 3-5 years</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. 5-10 years</div></div>
+      <div class="option" data-v="E"><div class="option-check"></div><div class="option-text">E. 10+ years</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q4</div>
+    <div class="q-text">Which equipment brands do you work with most? (Multiple choice)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q4" data-multi="true">
+      <div class="option option-checkbox" data-v="CAT"><div class="option-check"></div><div class="option-text">CAT (Caterpillar)</div></div>
+      <div class="option option-checkbox" data-v="Cummins"><div class="option-check"></div><div class="option-text">Cummins</div></div>
+      <div class="option option-checkbox" data-v="Perkins"><div class="option-check"></div><div class="option-text">Perkins</div></div>
+      <div class="option option-checkbox" data-v="MTU"><div class="option-check"></div><div class="option-text">MTU</div></div>
+      <div class="option option-checkbox" data-v="Volvo Penta"><div class="option-check"></div><div class="option-text">Volvo Penta</div></div>
+      <div class="option option-checkbox" data-v="Chinese brands"><div class="option-check"></div><div class="option-text">Chinese brands (Yuchai/Weichai etc.)</div></div>
+      <div class="option option-checkbox" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q5</div>
+    <div class="q-text">What is your primary working language?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q5">
+      <div class="option" data-v="Chinese"><div class="option-check"></div><div class="option-text">Chinese</div></div>
+      <div class="option" data-v="English"><div class="option-check"></div><div class="option-text">English</div></div>
+      <div class="option" data-v="French"><div class="option-check"></div><div class="option-text">French</div></div>
+      <div class="option" data-v="Spanish"><div class="option-check"></div><div class="option-text">Spanish</div></div>
+      <div class="option" data-v="Arabic"><div class="option-check"></div><div class="option-text">Arabic</div></div>
+      <div class="option" data-v="Russian"><div class="option-check"></div><div class="option-text">Russian</div></div>
+      <div class="option" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: Fault Diagnosis Current Status -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Fault Diagnosis Current Status</div>
+  </div>
+  <div class="section-desc">Help us understand how you currently handle equipment faults and your pain points.</div>
+
+  <div class="question">
+    <div class="q-num">Q6</div>
+    <div class="q-text">How many equipment faults do you need to diagnose per month on average?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q6">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. 1-5</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. 5-15</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. 15-30</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. 30+</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q7</div>
+    <div class="q-text">When you encounter a fault, what's your most common way to solve it? (Multiple choice)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q7" data-multi="true">
+      <div class="option option-checkbox" data-v="Manuals"><div class="option-check"></div><div class="option-text">Check paper/electronic service manuals</div></div>
+      <div class="option option-checkbox" data-v="Google"><div class="option-check"></div><div class="option-text">Google search fault codes</div></div>
+      <div class="option option-checkbox" data-v="YouTube"><div class="option-check"></div><div class="option-text">YouTube repair tutorials</div></div>
+      <div class="option option-checkbox" data-v="WhatsApp"><div class="option-check"></div><div class="option-text">WhatsApp groups for peer help</div></div>
+      <div class="option option-checkbox" data-v="Forums"><div class="option-check"></div><div class="option-text">Professional forums (Eng-Tips/Reddit)</div></div>
+      <div class="option option-checkbox" data-v="Manufacturer"><div class="option-check"></div><div class="option-text">Contact manufacturer/dealer support</div></div>
+      <div class="option option-checkbox" data-v="Experience"><div class="option-check"></div><div class="option-text">Rely on personal experience</div></div>
+      <div class="option option-checkbox" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q8</div>
+    <div class="q-text">What is your biggest pain point during fault diagnosis? (Max 3 choices)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q8" data-multi="true" data-max="3">
+      <div class="option option-checkbox" data-v="No manuals"><div class="option-check"></div><div class="option-text">Can't find service manuals or fault code explanations</div></div>
+      <div class="option option-checkbox" data-v="Language barrier"><div class="option-check"></div><div class="option-text">Manuals are all in English, hard to understand</div></div>
+      <div class="option option-checkbox" data-v="Poor internet"><div class="option-check"></div><div class="option-text">Poor internet at work sites, can't search online</div></div>
+      <div class="option option-checkbox" data-v="No response"><div class="option-check"></div><div class="option-text">No timely response in WhatsApp groups</div></div>
+      <div class="option option-checkbox" data-v="Inaccurate info"><div class="option-check"></div><div class="option-text">Information found online is inaccurate/incomplete</div></div>
+      <div class="option option-checkbox" data-v="Multi-brand"><div class="option-check"></div><div class="option-text">Multi-brand equipment, resources are scattered</div></div>
+      <div class="option option-checkbox" data-v="Time pressure"><div class="option-check"></div><div class="option-text">Time pressure from clients</div></div>
+      <div class="option option-checkbox" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q9</div>
+    <div class="q-text">How long does it typically take you to resolve a typical fault?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q9">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Under 30 min</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. 30 min - 2 hours</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. 2-6 hours</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. 6 hours - 1 day</div></div>
+      <div class="option" data-v="E"><div class="option-check"></div><div class="option-text">E. Over 1 day</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q10</div>
+    <div class="q-text">Describe a memorable fault diagnosis experience (difficulties, resolution process, time spent, etc.)</div>
+    <textarea class="text-input" id="q10" placeholder="e.g., 2 AM at a mining site, generator showing E147 fault code, no manual no internet, took 4 hours to find the cause..."></textarea>
+  </div>
+</div>
+
+<!-- Section 3: Spare Parts & Procurement -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">Spare Parts & Procurement</div>
+  </div>
+  <div class="section-desc">Help us understand your spare parts procurement needs and pain points.</div>
+
+  <div class="question">
+    <div class="q-num">Q11</div>
+    <div class="q-text">How often do you purchase spare parts per month?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q11">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Rarely (company handles purchasing)</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. 1-3 times</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. 3-10 times</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. 10+ times</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q12</div>
+    <div class="q-text">Through which channels do you purchase parts? (Multiple choice)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q12" data-multi="true">
+      <div class="option option-checkbox" data-v="Manufacturer/Dealer"><div class="option-check"></div><div class="option-text">Equipment manufacturer/dealer</div></div>
+      <div class="option option-checkbox" data-v="Local suppliers"><div class="option-check"></div><div class="option-text">Local parts suppliers</div></div>
+      <div class="option option-checkbox" data-v="E-commerce"><div class="option-check"></div><div class="option-text">E-commerce (Alibaba/Amazon)</div></div>
+      <div class="option option-checkbox" data-v="Peer recommendations"><div class="option-check"></div><div class="option-text">Peer recommendations</div></div>
+      <div class="option option-checkbox" data-v="Second-hand market"><div class="option-check"></div><div class="option-text">Second-hand parts market</div></div>
+      <div class="option option-checkbox" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q13</div>
+    <div class="q-text">What's your biggest problem when purchasing parts? (Max 3 choices)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q13" data-multi="true" data-max="3">
+      <div class="option option-checkbox" data-v="Counterfeit"><div class="option-check"></div><div class="option-text">Counterfeit/refurbished parts sold as genuine</div></div>
+      <div class="option option-checkbox" data-v="Pricing"><div class="option-check"></div><div class="option-text">Non-transparent pricing</div></div>
+      <div class="option option-checkbox" data-v="Compatibility"><div class="option-check"></div><div class="option-text">Don't know if parts are compatible</div></div>
+      <div class="option option-checkbox" data-v="Shipping"><div class="option-check"></div><div class="option-text">Slow/expensive international shipping</div></div>
+      <div class="option option-checkbox" data-v="No suppliers"><div class="option-check"></div><div class="option-text">Can't find reliable suppliers</div></div>
+      <div class="option option-checkbox" data-v="Part numbers"><div class="option-check"></div><div class="option-text">Don't know exact part numbers</div></div>
+      <div class="option option-checkbox" data-v="Returns"><div class="option-check"></div><div class="option-text">Difficult returns/refunds</div></div>
+      <div class="option option-checkbox" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q14</div>
+    <div class="q-text">Have you encountered counterfeit parts?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q14">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Frequently, it's a headache</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Occasionally</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Rarely</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. Never</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q15</div>
+    <div class="q-text">Would you use a community-verified parts supplier platform?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q15">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Very willing, exactly what I need</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Willing to try</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Depends on platform reliability</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. Not willing, prefer current channels</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 4: Knowledge & Community -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">Knowledge & Community</div>
+  </div>
+  <div class="section-desc">Help us understand how you learn and participate in engineer communities.</div>
+
+  <div class="question">
+    <div class="q-num">Q16</div>
+    <div class="q-text">How do you currently learn new technical/repair knowledge? (Multiple choice)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q16" data-multi="true">
+      <div class="option option-checkbox" data-v="Manufacturer training"><div class="option-check"></div><div class="option-text">Manufacturer training</div></div>
+      <div class="option option-checkbox" data-v="YouTube"><div class="option-check"></div><div class="option-text">YouTube tutorials</div></div>
+      <div class="option option-checkbox" data-v="Forums"><div class="option-check"></div><div class="option-text">Professional forums/communities</div></div>
+      <div class="option option-checkbox" data-v="Peer learning"><div class="option-check"></div><div class="option-text">Peer learning</div></div>
+      <div class="option option-checkbox" data-v="Self-study"><div class="option-check"></div><div class="option-text">Self-study from manuals</div></div>
+      <div class="option option-checkbox" data-v="Books"><div class="option-check"></div><div class="option-text">Professional books</div></div>
+      <div class="option option-checkbox" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q17</div>
+    <div class="q-text">Which engineer communities/forums do you participate in? (Multiple choice)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q17" data-multi="true">
+      <div class="option option-checkbox" data-v="WhatsApp"><div class="option-check"></div><div class="option-text">WhatsApp engineer groups</div></div>
+      <div class="option option-checkbox" data-v="Reddit"><div class="option-check"></div><div class="option-text">Reddit (r/Diesel, r/generators)</div></div>
+      <div class="option option-checkbox" data-v="Eng-Tips"><div class="option-check"></div><div class="option-text">Eng-Tips</div></div>
+      <div class="option option-checkbox" data-v="Facebook"><div class="option-check"></div><div class="option-text">Facebook engineer groups</div></div>
+      <div class="option option-checkbox" data-v="LinkedIn"><div class="option-check"></div><div class="option-text">LinkedIn engineer groups</div></div>
+      <div class="option option-checkbox" data-v="None"><div class="option-check"></div><div class="option-text">None</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q18</div>
+    <div class="q-text">How satisfied are you with existing engineer communities?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q18">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Satisfied, solves most problems</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Average, sometimes helpful</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Not satisfied</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. Never used communities</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q19</div>
+    <div class="q-text">What dissatisfies you most about existing communities? (Max 3 choices)</div>
+    <div class="options option-checkbox" data-q="q19" data-multi="true" data-max="3">
+      <div class="option option-checkbox" data-v="Language barrier"><div class="option-check"></div><div class="option-text">All in English, language barrier</div></div>
+      <div class="option option-checkbox" data-v="Poor search"><div class="option-check"></div><div class="option-text">Poor search, can't find past content</div></div>
+      <div class="option option-checkbox" data-v="Slow responses"><div class="option-check"></div><div class="option-text">Slow responses</div></div>
+      <div class="option option-checkbox" data-v="Low quality"><div class="option-check"></div><div class="option-text">Low quality/inaccurate content</div></div>
+      <div class="option option-checkbox" data-v="Not vertical"><div class="option-check"></div><div class="option-text">Not vertical enough (mixed with other fields)</div></div>
+      <div class="option option-checkbox" data-v="No offline"><div class="option-check"></div><div class="option-text">Can't use offline</div></div>
+      <div class="option option-checkbox" data-v="Other"><div class="option-check"></div><div class="option-text">Other</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q20</div>
+    <div class="q-text">Would you share your own repair experiences/case studies?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q20">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Very willing</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. If there's a reward (points/certification/payment)</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Occasionally</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. Not willing</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: Work Environment -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div class="section-title">Work Environment</div>
+  </div>
+  <div class="section-desc">Help us understand your work environment and technical conditions.</div>
+
+  <div class="question">
+    <div class="q-num">Q21</div>
+    <div class="q-text">How's your internet connectivity at work?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q21">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Stable 4G/5G/WiFi</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Unstable, intermittent</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Very poor</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. No internet at all</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q22</div>
+    <div class="q-text">What device do you primarily use to access technical information?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q22">
+      <div class="option" data-v="Android"><div class="option-check"></div><div class="option-text">Android phone</div></div>
+      <div class="option" data-v="iPhone"><div class="option-check"></div><div class="option-text">iPhone</div></div>
+      <div class="option" data-v="Tablet"><div class="option-check"></div><div class="option-text">Tablet</div></div>
+      <div class="option" data-v="Laptop"><div class="option-check"></div><div class="option-text">Laptop</div></div>
+      <div class="option" data-v="Desktop"><div class="option-check"></div><div class="option-text">Desktop</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q23</div>
+    <div class="q-text">Do you need offline access to technical materials?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q23">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Must have offline, often no internet</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Nice to have</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Not needed, internet is sufficient</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q24</div>
+    <div class="q-text">How do you currently record maintenance history?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q24">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Paper notebook/forms</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Excel spreadsheets</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Phone notes/photos</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. Professional maintenance software</div></div>
+      <div class="option" data-v="E"><div class="option-check"></div><div class="option-text">E. No systematic records</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 6: Pain Point Prioritization -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div class="section-title">Pain Point Prioritization</div>
+  </div>
+  <div class="section-desc">Please prioritize the features and problems that matter most to you.</div>
+
+  <div class="question">
+    <div class="q-num">Q25</div>
+    <div class="q-text">Which features would be most valuable to you? (Max 5 choices)<span class="q-required">Required</span></div>
+    <div class="options option-checkbox" data-q="q25" data-multi="true" data-max="5">
+      <div class="option option-checkbox" data-v="Fault code database"><div class="option-check"></div><div class="option-text">Fault code database</div></div>
+      <div class="option option-checkbox" data-v="Smart diagnostic tree"><div class="option-check"></div><div class="option-text">Smart diagnostic tree</div></div>
+      <div class="option option-checkbox" data-v="Emergency Q&A"><div class="option-check"></div><div class="option-text">Emergency Q&A community</div></div>
+      <div class="option option-checkbox" data-v="Offline manual"><div class="option-check"></div><div class="option-text">Offline manual download</div></div>
+      <div class="option option-checkbox" data-v="Multi-language"><div class="option-check"></div><div class="option-text">Multi-language support</div></div>
+      <div class="option option-checkbox" data-v="Verified suppliers"><div class="option-check"></div><div class="option-text">Community-verified parts suppliers</div></div>
+      <div class="option option-checkbox" data-v="Maintenance planner"><div class="option-check"></div><div class="option-text">Maintenance plan generator</div></div>
+      <div class="option option-checkbox" data-v="Repair case library"><div class="option-check"></div><div class="option-text">Repair case library</div></div>
+      <div class="option option-checkbox" data-v="Certification"><div class="option-check"></div><div class="option-text">Engineer certification system</div></div>
+      <div class="option option-checkbox" data-v="Online training"><div class="option-check"></div><div class="option-text">Online training courses</div></div>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q26</div>
+    <div class="q-text">If you could only solve ONE problem, which would it be?<span class="q-required">Required</span></div>
+    <div class="options" data-q="q26">
+      <div class="option" data-v="A"><div class="option-check"></div><div class="option-text">A. Quickly find fault code meanings and solutions</div></div>
+      <div class="option" data-v="B"><div class="option-check"></div><div class="option-text">B. Find trustworthy parts suppliers</div></div>
+      <div class="option" data-v="C"><div class="option-check"></div><div class="option-text">C. Get quick peer help in emergencies</div></div>
+      <div class="option" data-v="D"><div class="option-check"></div><div class="option-text">D. Technical materials in my native language</div></div>
+      <div class="option" data-v="E"><div class="option-check"></div><div class="option-text">E. Access materials offline</div></div>
+      <div class="option" data-v="F"><div class="option-check"></div><div class="option-text">F. Systematically track maintenance</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 7: Open Questions -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div class="section-title">Open Questions</div>
+  </div>
+  <div class="section-desc">Please share your genuine thoughts and suggestions.</div>
+
+  <div class="question">
+    <div class="q-num">Q27</div>
+    <div class="q-text">What would your ideal engineer platform look like?</div>
+    <textarea class="text-input" id="q27" placeholder="Describe your ideal engineer platform..."></textarea>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q28</div>
+    <div class="q-text">Which features would you be willing to pay for?</div>
+    <textarea class="text-input" id="q28" placeholder="e.g., Certification system, training courses, advanced search..."></textarea>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q29</div>
+    <div class="q-text">Any other suggestions or comments?</div>
+    <textarea class="text-input" id="q29" placeholder="Any thoughts are welcome..."></textarea>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Q30</div>
+    <div class="q-text">If you're willing to participate in follow-up interviews or product testing, please leave your contact info (email/WhatsApp)</div>
+    <input type="text" class="text-input" id="q30" placeholder="Email or WhatsApp number (optional)">
+  </div>
+</div>
+
+<!-- Submit -->
+<div class="submit-section">
+  <button class="submit-btn" id="submitBtn" onclick="submitSurvey()">
+    <span>Submit Survey</span>
+  </button>
+  <div class="submit-note">Your responses will help us build a better platform for engineers</div>
+</div>
+
+</main>
+
+<footer>
+  Global Industrial Mechanical Engineers Alliance · 2025
+</footer>
+
+<div class="success-modal" id="successModal">
+  <div class="success-content">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Thank You!</div>
+    <div class="success-desc">Your feedback is incredibly valuable to us. We will carefully analyze every response.</div>
+    <button class="success-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+var answers={};
+var totalQuestions=30;
+var answeredQuestions=0;
+
+document.querySelectorAll('.options').forEach(function(optGroup){
+  var qId=optGroup.dataset.q;
+  var isMulti=optGroup.dataset.multi==='true';
+  var maxSelect=parseInt(optGroup.dataset.max)||0;
+
+  optGroup.querySelectorAll('.option').forEach(function(opt){
+    opt.addEventListener('click',function(){
+      if(isMulti){
+        if(opt.classList.contains('selected')){
+          opt.classList.remove('selected');
+          if(!answers[qId])answers[qId]=[];
+          answers[qId]=answers[qId].filter(function(v){return v!==opt.dataset.v});
+        }else{
+          if(maxSelect>0 && answers[qId] && answers[qId].length>=maxSelect){
+            alert('You can select up to '+maxSelect+' options');
+            return;
+          }
+          opt.classList.add('selected');
+          if(!answers[qId])answers[qId]=[];
+          answers[qId].push(opt.dataset.v);
+        }
+      }else{
+        optGroup.querySelectorAll('.option').forEach(function(o){o.classList.remove('selected')});
+        opt.classList.add('selected');
+        answers[qId]=opt.dataset.v;
+
+        if(opt.dataset.v==='F' || opt.dataset.v==='Other'){
+          var otherInput=document.getElementById(qId+'-other');
+          if(otherInput)otherInput.style.display='block';
+        }else{
+          var otherInput=document.getElementById(qId+'-other');
+          if(otherInput){otherInput.style.display='none';otherInput.value=''}
+        }
+      }
+      updateProgress();
+    });
+  });
+});
+
+document.querySelectorAll('.text-input').forEach(function(input){
+  input.addEventListener('input',function(){
+    if(input.value.trim()){
+      answers[input.id]=input.value.trim();
+    }else{
+      delete answers[input.id];
+    }
+    updateProgress();
+  });
+});
+
+function updateProgress(){
+  var count=0;
+  for(var key in answers){
+    if(answers[key] && (typeof answers[key]=='string' && answers[key].trim() || Array.isArray(answers[key]) && answers[key].length>0)){
+      count++;
+    }
+  }
+  answeredQuestions=count;
+  var pct=Math.round((count/totalQuestions)*100);
+  document.getElementById('progress').style.width=pct+'%';
+}
+
+var API_URL='AKfycby1_a11cbR06qjooR9qqAG9Vg84qOAj-CCnqp-IxV8itxQX-AsjN8y9bpKk2UDx6Yz5';
+
+function submitSurvey(){
+  var required=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q11','q12','q13','q14','q15','q16','q17','q18','q20','q21','q22','q23','q24','q25','q26'];
+  var missing=[];
+
+  required.forEach(function(q){
+    if(!answers[q] || (Array.isArray(answers[q]) && answers[q].length===0)){
+      missing.push(q);
+    }
+  });
+
+  if(missing.length>0){
+    alert('Please complete all required fields (marked with "Required")');
+    return;
+  }
+
+  var payload={};
+  for(var key in answers){
+    if(Array.isArray(answers[key])){
+      payload[key]=answers[key].join('; ');
+    }else{
+      payload[key]=answers[key];
+    }
+  }
+
+  if(API_URL){
+    var btn=document.getElementById('submitBtn');
+    btn.disabled=true;
+    btn.textContent='Submitting...';
+
+    fetch(API_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    }).then(function(){
+      document.getElementById('successModal').classList.add('show');
+      btn.disabled=false;
+      btn.textContent='Submit Survey';
+    }).catch(function(err){
+      alert('Submission failed. Please check your network and try again.');
+      btn.disabled=false;
+      btn.textContent='Submit Survey';
+    });
+  }else{
+    console.log('Survey Answers:',JSON.stringify(payload,null,2));
+    document.getElementById('successModal').classList.add('show');
+  }
+}
+
+function closeModal(){
+  document.getElementById('successModal').classList.remove('show');
+}
+</script>
+</body>
+</html>
